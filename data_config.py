@@ -61,7 +61,7 @@ shapenet_categlory_pair = {
     'microwaves' : '03761084'
 }
 
-our_categories = ['chair', 'bed']
+our_categories = ['chair', 'table']
 our_categories = [shapenet_categlory_pair[cat] for cat in our_categories]
 
 shapenet_path = './datasets/ShapeNetCore.v2'
@@ -72,4 +72,4 @@ model_view_path = './model_view_metadata/result.pkl'
 watertight_mesh_path = './datasets/ShapeNetCore.v2_watertight'
 
 shape_scale_padding = 0
-total_view_nums = 20
+total_view_nums = 96
