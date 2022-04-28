@@ -202,17 +202,25 @@ view_list = [
 
 rename_model_dict = {}
 used_model_list = []
+ids = []
+
+# modify
 
 catagery = 'table'
 
 if catagery == 'table':
-    path = './datasets/ShapeNetRenderings/04379243'
     all_model_path = './datasets/ShapeNetCore.v2_normalized/04379243'
-    not_used_model_path = './datasets/ShapeNetCore.v2_normalized/04379243_not_used'
-    rendered_model_path = './datasets/ShapeNetCore.v2_normalized/04379243_rendered'
+    used_model_path = './datasets/ShapeNetCore.v2_normalized/04379243_used'
 elif catagery == 'chair':
     all_model_path = './datasets/ShapeNetCore.v2/03001627'
-    not_used_model_path = './datasets/ShapeNetCore.v2/03001627_not_used'
+    used_model_path = './datasets/ShapeNetCore.v2/03001627_used'
+elif catagery == 'car':
+    all_model_path = './datasets/ShapeNetCore.v2/car'
+    used_model_path = './datasets/ShapeNetCore.v2/car_used'
+elif catagery == 'airplane':
+    all_model_path = './datasets/ShapeNetCore.v2/airplane'
+    used_model_path = './datasets/ShapeNetCore.v2/airplane_used'
+
 
 def create_name_dict():
     with open(catagery+'.txt','r+') as f:
@@ -224,32 +232,23 @@ def create_name_dict():
             rename_model_dict[old] = new
     # print(rename_model_dict)
 
-ids = []
-def get_id():
-    with open(catagery+'_i.txt','r+') as f:
-        items = f.readlines()
-        for item in items:
-            id = rename_model_dict.get(item.strip('\n'))
-            if id != None:
-                ids.append(id)
-    print(ids)
-
-
-
 
 def get_used_model():
-    with open(catagery+'_used.txt','r+') as f:
+    with open(catagery + '_used.txt', 'r+') as f:
         items = f.readlines()
         for item in items:
             new = item[0:-12]
             used_model_list.append(new)
     # print(used_model_list)
 
+
 def select_used_model():
     with os.scandir(all_model_path) as items:
         for item in items:
-            if item.is_dir() and rename_model_dict.get(item.name) not in used_model_list:
-                shutil.move(all_model_path+'/'+item.name,not_used_model_path)
+            if item.is_dir() and rename_model_dict.get(item.name) in used_model_list:
+                shutil.copy(all_model_path + '/' + item.name, used_model_path)
+
+
 
 rendered_model_list = []
 def get_rendered_model():
@@ -297,9 +296,11 @@ def convert_path():
 
 
 if __name__ == '__main__':
+    # before render
     create_name_dict()
-    get_id()
-    # get_used_model()
+    get_used_model()
+
+    # after render
     # select_used_model()
     # rename()
     # get_rendered_model()

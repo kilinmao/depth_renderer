@@ -1,4 +1,4 @@
-blender-2.79b-linux-glibc219-x86_64/
-external/
-tools/
-__pycache__/
+*
+!*.py
+!.txt
+!.gitignore
